@@ -1,8 +1,7 @@
-function data_split_eachimages = split_paper(image, NUM_SPLIT, option, OutputFolderName,imagename)
+function data_split_eachimages = split_paper(image, NUM_SPLIT, OutputFolderName,imagename)
     % Split the images to lengthways
-    % Input: 1. NUM_SPLIT option 1: 1*1; option 2: n*m
-    %        2. option: lengthway with 1
-    %                   cubecut with 2
+    % Input: 1. NUM_SPLIT [n, m]
+    %   
     % Output: data_split_images
     
     % pre-processing, set the threshold to binarize the img 
@@ -12,11 +11,11 @@ function data_split_eachimages = split_paper(image, NUM_SPLIT, option, OutputFol
     img(img < IMG_THRE) = 0;
     [row, col] = size(img);
     mkdir([OutputFolderName, '\', imagename]); % make output folder for splitted images
-    if option == 1
-        NUM_SPLIT = NUM_SPLIT(1)*NUM_SPLIT(2);
-        num_random_order = randperm(NUM_SPLIT);
-        step_size = ceil(col / NUM_SPLIT);
-        for j = 1:NUM_SPLIT
+    if NUM_SPLIT(1) == 1
+        numsplit = NUM_SPLIT(2);
+        num_random_order = randperm(numsplit);
+        step_size = ceil(col / numsplit);
+        for j = 1:numsplit
             subname=['sub', num2str(j)];
             data_split_eachimages.(subname) = img(:, ((num_random_order(j)-1) * step_size + 1) : min(num_random_order(j) * step_size, col));
             figure (j)
