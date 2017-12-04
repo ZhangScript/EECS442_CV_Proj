@@ -3,7 +3,7 @@
 
 %% Read Image from Input Image folder
 addpath 'Input Images';
-list=dir('Input Images\');
+list=dir('Input Images/');
 OutputFolderName = 'Images of splitting result'; 
 
 % pre-processing, set the threshold to binarize the img 

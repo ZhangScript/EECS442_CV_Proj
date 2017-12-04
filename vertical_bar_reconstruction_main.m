@@ -17,7 +17,7 @@ for i = 1:length(imagenames)
     figure (i)
     imshow(reconstruct_final);
     img_name_savedname = ['Reconstructed_', img_name];
-    figName = [pwd, '\',OutputFolderName,'\', img_name_savedname,'.png'];
+    figName = [pwd, '/',OutputFolderName,'/', img_name_savedname,'.png'];
     saveas(figure (i), figName);
     close all;
 end
