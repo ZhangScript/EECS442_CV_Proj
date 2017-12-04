@@ -13,7 +13,8 @@ function data_split_eachimages = split_paper(image, NUM_SPLIT, OutputFolderName,
     mkdir([OutputFolderName, '\', imagename]); % make output folder for splitted images
     if NUM_SPLIT(1) == 1
         numsplit = NUM_SPLIT(2);
-        num_random_order = randperm(numsplit);
+%         num_random_order = randperm(numsplit);
+        num_random_order = [1:numsplit];
         step_size = ceil(col / numsplit);
         for j = 1:numsplit
             subname=['sub', num2str(j)];

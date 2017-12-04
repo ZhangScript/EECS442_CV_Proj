@@ -1,9 +1,5 @@
 % Split the images to lengthways
 % Made on 12/01/2017
-clear all; close all; clc;
-%% Input Parameters
-NUM_SPLIT = [4 5]; % row and colum, but when option 1 input [1 n]
-OPTION = 2;
 
 %% Read Image from Input Image folder
 addpath 'Input Images';

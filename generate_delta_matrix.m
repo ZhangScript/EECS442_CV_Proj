@@ -10,6 +10,7 @@ function [delta_matrix, left_edge_index, right_edge_index, left_blank_max, right
     for j = 1:num_split
         subimg_name = char(subimagename(j));
         left_part = data_image.(subimg_name); % use its right edge
+        
         [row, step_size] = size(left_part);
         
         % find the most left 
@@ -20,25 +21,25 @@ function [delta_matrix, left_edge_index, right_edge_index, left_blank_max, right
             end
         end
         
-        % find the most right
-        for k = 1:step_size
-           if (row - sum(left_part(:, step_size + 1 - k))) / row > ERROR_RATE
-               right_blank_val = k;
-               break;
-           end
-        end
-        
         % update the left max
         if (left_blank_val > left_blank_max)
            left_edge_index = j;
            left_blank_max = left_blank_val;
         end
+        
+        % find the most right
+        for k = 1:step_size
+           if (row - sum(left_part(:, step_size + 1 - k))) / row > ERROR_RATE
+               right_blank_val = k - 1;
+               break;
+           end
+        end
+
         % update the right max
         if (right_blank_val > right_blank_max)
            right_edge_index = j;
            right_blank_max = right_blank_val;
         end
-        
         
         left_part_right_edge = left_part(:,end);
         for k = 1:num_split
