@@ -22,7 +22,7 @@ function [delta_matrix, left_edge_index, right_edge_index, left_blank_max, right
         end
         
         % update the left max
-        if (left_blank_val > left_blank_max)
+        if (left_blank_val > left_blank_max) || (left_blank_val == step_size)
            left_edge_index = j;
            left_blank_max = left_blank_val;
         end
@@ -36,7 +36,7 @@ function [delta_matrix, left_edge_index, right_edge_index, left_blank_max, right
         end
 
         % update the right max
-        if (right_blank_val > right_blank_max)
+        if (right_blank_val > right_blank_max) || (right_blank_val == step_size)
            right_edge_index = j;
            right_blank_max = right_blank_val;
         end

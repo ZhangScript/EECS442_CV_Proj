@@ -1,14 +1,14 @@
 % laterial and vertical bar reconstruction
 % Made on 12/01/2017
 clear all; close all; clc;
-NUM_SPLIT = [6 6]; % row and colum
+NUM_SPLIT = [3 5]; % row and colum
 
 load data_split_images.mat;
 
 imagenames = fieldnames(data);
 OutputFolderName = 'Output reconstructed images'; 
 mkdir(OutputFolderName); % make output folder for splitted images
-ERROR_RATE = 0.02;
+ERROR_RATE = 0.0729483286; % magic number 
 
 for i = 1:length(imagenames)
     img_name = char(imagenames(i));
@@ -127,10 +127,10 @@ for i = 1:length(imagenames)
             for  k = 1:length(index_target_sort_top_blank)
                if (top_blank_val_index(index_target_sort_top_blank(k)) > 0 )
                    reconstruct_matrix(prev_row_index + 1, num) = index_target_sort_top_blank(k);
+                   top_blank_val_index(index_target_sort_top_blank(k)) = 0;
                    if (num == NUM_SPLIT(2))
                        break;
                    else
-                       top_blank_val_index(index_target_sort_top_blank(k)) = 0;
                        num = num + 1;
                    end
                end
@@ -144,10 +144,10 @@ for i = 1:length(imagenames)
             for  k = 1:length(index_target_sort_top_word)
                if (top_word_val_index(index_target_sort_top_word(k)) > 0 )
                    reconstruct_matrix(prev_row_index + 1, num) = index_target_sort_top_word(k);
+                   top_word_val_index(index_target_sort_top_word(k)) = 0;
                    if (num == NUM_SPLIT(2))
                        break;
                    else
-                       top_word_val_index(index_target_sort_top_word(k)) = 0;
                        num = num + 1;
                    end
                end
