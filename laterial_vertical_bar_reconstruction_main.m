@@ -1,7 +1,7 @@
 % laterial and vertical bar reconstruction
 % Made on 12/01/2017
 clear all; close all; clc;
-NUM_SPLIT = [3 5]; % row and colum
+NUM_SPLIT = [4 5]; % row and colum
 
 load data_split_images.mat;
 
