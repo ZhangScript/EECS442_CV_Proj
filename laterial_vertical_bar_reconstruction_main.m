@@ -1,5 +1,8 @@
 % laterial and vertical bar reconstruction
 % Made on 12/01/2017
+clear all; close all; clc;
+NUM_SPLIT = [6 6]; % row and colum
+
 load data_split_images.mat;
 
 imagenames = fieldnames(data);
@@ -116,7 +119,7 @@ for i = 1:length(imagenames)
     top_blank_val_index(index_bottom_blank, :) = 0; % bottom blank or word should be set 0;
     top_word_val_index(index_bottom_blank, :) = 0;
     prev_row_index = 1;
-    while prev_row_index < NUM_SPLIT - 1
+    while prev_row_index < NUM_SPLIT(1) - 1
         if mean(bottom_word_val_index(reconstruct_matrix(prev_row_index,:))) < 2 % bottom is blank
             target_top_blank_value = blank_avg - mean(bottom_blank_val_index(reconstruct_matrix(prev_row_index,:)));
             [~, index_target_sort_top_blank] = sort(abs(top_blank_val_index - target_top_blank_value), 'descend' );
@@ -133,8 +136,7 @@ for i = 1:length(imagenames)
                end
             end
     %         reconstruct_matrix(prev_row_index + 1, :) = index_target_sort_top_blank(1:NUM_SPLIT(2));
-    
-    
+
         else                                                                     % bottom is word
             target_top_word_value = word_avg - mean(bottom_word_val_index(reconstruct_matrix(prev_row_index,:)));
             [~, index_target_sort_top_word] = sort(abs(top_word_val_index - target_top_word_value), 'descend' );
@@ -165,8 +167,22 @@ for i = 1:length(imagenames)
 %         new_reconstruct_matrix = [new_reconstruct_matrix; new_reconstruct_matrix_row];
 %     end
 %     imshow(new_reconstruct_matrix)
-    a = 1;
-    
+    reconstruct_final = [];
+    for j = 1:size(reconstruct_matrix,1)
+        data_subimg_line = struct;
+        for k = 1:size(reconstruct_matrix,2)
+            subimg_name = char(subimagename(reconstruct_matrix(j,k)));
+            image_part = data.(img_name).(subimg_name);
+            data_subimg_line.(subimg_name) = image_part;
+        end
+        reconstruct_final = [reconstruct_final; vertical_bar_reconstruction(data_subimg_line)];
+    end
+    figure (i)
+    imshow(reconstruct_final);
+    img_name_savedname = ['Reconstructed_', img_name];
+    figName = [pwd, '\',OutputFolderName,'\', img_name_savedname,'.png'];
+    saveas(figure (i), figName);
+    close all;
     
     
 %     reconstruct_final = vertical_bar_reconstruction(data.(img_name));
