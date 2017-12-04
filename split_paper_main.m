@@ -7,7 +7,7 @@ list=dir('Input Images\');
 OutputFolderName = 'Images of splitting result'; 
 
 % pre-processing, set the threshold to binarize the img 
-IMG_THRE = 0.75;
+IMG_THRE = 0.7;
 %% fixit: list is unkown 
 for i = 3:1:length(list)
     imagename = list(i).name;
