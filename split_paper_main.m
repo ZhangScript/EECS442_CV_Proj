@@ -8,7 +8,7 @@ OutputFolderName = 'Images of splitting result';
 
 % pre-processing, set the threshold to binarize the img 
 IMG_THRE = 0.7;
-%% fixit: list is unkown 
+
 for i = 3:1:length(list)
     imagename = list(i).name;
     imagename(end-3:end) = []; % remove the suffix. e.g, .png

@@ -5,3 +5,6 @@ NUM_SPLIT = [1 14]; % row and colum
 split_paper_main
 
 vertical_bar_reconstruction_main
+
+%% Image OCR and txt saving 
+reconstructed_image_ocr

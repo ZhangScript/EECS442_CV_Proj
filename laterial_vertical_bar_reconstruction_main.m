@@ -8,7 +8,7 @@ load data_split_images.mat;
 imagenames = fieldnames(data);
 OutputFolderName = 'Output reconstructed images'; 
 mkdir(OutputFolderName); % make output folder for splitted images
-ERROR_RATE = 0.0729483286; % magic number 
+ERROR_RATE = 0.0729483286; % magic number by dzhang 
 
 for i = 1:length(imagenames)
     img_name = char(imagenames(i));
