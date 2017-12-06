@@ -1,16 +1,16 @@
 function [delta_matrix, left_edge_index, right_edge_index, left_blank_max, right_blank_max] = generate_delta_matrix(num_split, subimagename, data_image, ERROR_RATE)
+    % build delta matrix
+    
+    %% initialize the delta matrix
     delta_matrix = zeros(num_split, num_split);
-    % find the most left 
+    %% find the most left and right edge
     left_edge_index = 1;
     left_blank_max = 0;
-    
-    % find the most right
     right_edge_index = 1;
     right_blank_max = 0;
     for j = 1:num_split
         subimg_name = char(subimagename(j));
         left_part = data_image.(subimg_name); % use its right edge
-        
         [row, step_size] = size(left_part);
         
         % find the most left 

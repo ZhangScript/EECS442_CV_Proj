@@ -1,19 +1,17 @@
 function data_split_eachimages = split_paper(image, NUM_SPLIT, OutputFolderName,imagename)
-    % Split the images to lengthways
-    % Input: 1. NUM_SPLIT [n, m]
+    % Split the paper to n*m pieces
     %   
     % Output: data_split_images
-    
-    % pre-processing, set the threshold to binarize the img 
+    %% pre-processing, set the threshold to binarize the img 
     IMG_THRE = 0.7;
     img = rgb2gray(double(imread(image.name))/255);
     img(img >= IMG_THRE) = 1;
     img(img < IMG_THRE) = 0;
     [row, col] = size(img);
+    %% start splitting
     mkdir([OutputFolderName, '/', imagename]); % make output folder for splitted images
-    if NUM_SPLIT(1) == 1
+    if NUM_SPLIT(1) == 1   % lengthway cut
         numsplit = NUM_SPLIT(2);
-%         num_random_order = randperm(numsplit);
         num_random_order = [1:numsplit];
         step_size = ceil(col / numsplit);
         for j = 1:numsplit
@@ -25,7 +23,7 @@ function data_split_eachimages = split_paper(image, NUM_SPLIT, OutputFolderName,
             saveas(figure (j), figName);
             close all;
         end
-    else
+    else                    % grid cut
         num_random_order = randperm(NUM_SPLIT(1)*NUM_SPLIT(2));
         step_size_row = ceil(row / NUM_SPLIT(1));
         step_size_col = ceil(col / NUM_SPLIT(2));

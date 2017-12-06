@@ -1,19 +1,18 @@
-% Split the images to lengthways
+% Main function to split the images based on grid cut
 % Made on 12/01/2017
 
 %% Read Image from Input Image folder
 addpath 'Input Images';
-list=dir('Input Images/');
+list = dir('Input Images/');
 OutputFolderName = 'Images of splitting result'; 
 
-% pre-processing, set the threshold to binarize the img 
-IMG_THRE = 0.7;
-
+%% Call split_paper function to conduct splitting
 for i = 3:1:length(list)
     imagename = list(i).name;
     imagename(end-3:end) = []; % remove the suffix. e.g, .png
     data.(imagename) = split_paper(list(i), NUM_SPLIT, OutputFolderName, imagename);
 end
 
-NAME = 'data_split_images';  %% data_whole_Subs
+%% Save the data to data_split_images
+NAME = 'data_split_images'; 
 save(NAME, 'data');

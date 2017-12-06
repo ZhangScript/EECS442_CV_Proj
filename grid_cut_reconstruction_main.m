@@ -1,8 +1,8 @@
-% laterial and vertical bar reconstruction
+% Main function to reconstruct paper based on grid cut
 % Made on 12/01/2017
 
+%% Preparation and parameter setting
 load data_split_images.mat;
-
 imagenames = fieldnames(data);
 OutputFolderName = 'Output reconstructed images'; 
 mkdir(OutputFolderName); % make output folder for splitted images
@@ -10,11 +10,9 @@ ERROR_RATE = 0.0729483286; % magic number by dzhang
 
 for i = 1:length(imagenames)
     img_name = char(imagenames(i));
-    
     % calculate the top and bottom distance for each cube subimage
     subimagename = fieldnames(data.(img_name));
-    num_split = length(subimagename);    
-    
+    num_split = length(subimagename);   
     % function to top and bottom value for each sub images (idx -> val)
     top_blank_val_index = zeros(num_split, 1);
     top_word_val_index = zeros(num_split, 1);
@@ -24,14 +22,8 @@ for i = 1:length(imagenames)
     for j = 1:num_split
         subimg_name = char(subimagename(j));
         image_part = data.(img_name).(subimg_name); % cube image
-%         sub_img_row_sum = sum(~image_part,2);
-%         plot(sub_img_row_sum)
-
-        %% --------------------------------------------------------------
-        % start from here
         [step_size, col] = size(image_part);
-        is_word = 0;
-        
+        is_word = 0;   
         
         % ONLY TOP 
         % first identify it belongs to word or blank
@@ -56,9 +48,7 @@ for i = 1:length(imagenames)
             end
         end
         
-        
         % ONLY BOTTOM
-        
         % first identify it belongs to word or blank
         if (col - sum(image_part(step_size, :))) / col > ERROR_RATE
             is_word = 1;
@@ -99,13 +89,7 @@ for i = 1:length(imagenames)
     blank_avg = blank_sum / (length(top_blank_val_index(top_blank_val_index > 0)) - NUM_SPLIT(2));
            
     %% find the avg word value
-%     [~, index_sort_top_word] = sort(top_word_val_index, 'descend' );
-%     [~, index_sort_bottom_word] = sort(bottom_word_val_index, 'descend' );
-%     index_top_word = index_sort_top_word(1:NUM_SPLIT(2));
-%     index_bottom_word = index_sort_bottom_word(1:NUM_SPLIT(2));
-    
     word_sum = (sum(top_word_val_index) + sum(bottom_word_val_index));
-         
     word_avg = word_sum / (length(top_word_val_index(top_word_val_index > 0)));
     
     %% reconstruct the order of matrix
@@ -133,8 +117,6 @@ for i = 1:length(imagenames)
                    end
                end
             end
-    %         reconstruct_matrix(prev_row_index + 1, :) = index_target_sort_top_blank(1:NUM_SPLIT(2));
-
         else                                                                     % bottom is word
             target_top_word_value = word_avg - mean(bottom_word_val_index(reconstruct_matrix(prev_row_index,:)));
             [~, index_target_sort_top_word] = sort(abs(top_word_val_index - target_top_word_value), 'descend' );
@@ -153,7 +135,6 @@ for i = 1:length(imagenames)
         end
         prev_row_index = prev_row_index + 1;
     end
-    % 
 %     new_reconstruct_matrix = [];
 %     for j = 1:size(reconstruct_matrix,1)
 %         new_reconstruct_matrix_row = [];
@@ -173,23 +154,13 @@ for i = 1:length(imagenames)
             image_part = data.(img_name).(subimg_name);
             data_subimg_line.(subimg_name) = image_part;
         end
-        reconstruct_final = [reconstruct_final; vertical_bar_reconstruction(data_subimg_line)];
+        reconstruct_final = [reconstruct_final; lengthway_reconstruction(data_subimg_line)]; % use lengthway to reconstruct the pieces in the same line
     end
+    % save reconstructed paper to output folder
     figure (i)
     imshow(reconstruct_final);
     img_name_savedname = ['Reconstructed_', img_name];
     figName = [pwd, '/',OutputFolderName,'/', img_name_savedname,'.png'];
     saveas(figure (i), figName);
-    close all;
-    
-    
-%     reconstruct_final = vertical_bar_reconstruction(data.(img_name));
-%     
-%     % Save reconstructed image to output folder
-%     figure (i)
-%     imshow(reconstruct_final);
-%     img_name_savedname = ['Reconstructed_', img_name];
-%     figName = [pwd, '\',OutputFolderName,'\', img_name_savedname,'.jpg'];
-%     saveas(figure (i), figName);
-%     close all;
+    close all;   
 end
